@@ -1,6 +1,6 @@
 const express = require("express");
 
-const {index,create,addComment,update} = require("../controllers/Products")
+const {index,create,addComment,update,deleteProduct,addProductImage} = require("../controllers/Products")
 const schemas = require("../validations/Products");
 const validate = require("../middlewares/validate")
 
@@ -15,5 +15,6 @@ router.route("/:id/add-comment").patch(authenticate,validate(schemas.addComment,
 
 router.route("/").post(authenticateAdmin,validate(schemas.createProduct,"body"),create);
 router.route("/:id").patch(authenticateAdmin, validate(schemas.updateProduct,"body"),update);
-
+router.route("/:id").delete(authenticateAdmin,deleteProduct)
+router.route("/add-product-image").patch(authenticateAdmin,addProductImage)
 module.exports = router;

@@ -15,10 +15,23 @@ const loginUser = (loginData) =>{
 }
 
 const modify = (where,data) =>{
+    
+   
     return User.findOneAndUpdate(where,data,{new:true})
 
 
 }
+
+const remove = (id) =>{
+    return User.findByIdAndDelete(id);
+}
+
+const update= (where,data) =>{
+    return User.findOneAndReplace(where,data,{new:true})
+}
+
+
+
 
 
 
@@ -29,4 +42,7 @@ module.exports={
     insert,
     loginUser,
     modify,
+    remove,
+    update
+   
 }

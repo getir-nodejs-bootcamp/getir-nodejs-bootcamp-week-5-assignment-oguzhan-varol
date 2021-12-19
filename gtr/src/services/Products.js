@@ -25,10 +25,13 @@ const findOne = (where) =>{
     return Product.findOne(where)
 }
 
-const updateDoc = (docID,updateData) =>{
-    return Product.findByIdAndUpdate(docID,updateData,{new:true})
+const updateDoc = (data,updateData) =>{
+    return Product.findByIdAndUpdate(data,updateData,{new:true})
 }
 
+const remove = (id) =>{
+    return Product.findByIdAndDelete(id);
+}
 
 
 module.exports = {
@@ -36,4 +39,5 @@ module.exports = {
     insert,
     findOne,
     updateDoc,
+    remove,
 }

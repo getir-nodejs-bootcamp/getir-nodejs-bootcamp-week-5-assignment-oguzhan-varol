@@ -1,6 +1,6 @@
 const hs = require("http-status");
-const {list,insert,findOne,updateDoc} = require("../services/Products")
-
+const {list,insert,findOne,updateDoc,remove} = require("../services/Products")
+const path = require("path")
 
 const index = (req,res) =>{
     list()
@@ -77,6 +77,41 @@ const addComment = (req,res)=>{
     })
 }
 
+const deleteProduct = (req,res) =>{
+    if(!req.params?.id){
+        return res.status(hs.BAD_REQUEST).send({message:"ID bilgisi eksik"});
+    }
+
+    remove(req.params?.id)
+    .then((deletedProduct)=>{
+        console.log(deletedProduct)
+        if(!deletedProduct){
+           return res.status(hs.NOT_FOUND).send({message:"Böyle bir ürün bulunmamaktadır."})
+        }
+        res.status(hs.OK).send({message:"Ürün başarı ile silindi"});
+    })
+    .catch((e)=>{
+        res.status(hs.INTERNAL_SERVER_ERROR).send({error:"Silme işlemi sırasında problem oluştu"})
+    })
+
+}
+
+const addProductImage = (req,res) =>{
+    
+    if(req?.files?.media){
+        return res.status(hs.BAD_REQUEST).send({error:"Bu işlemi yapabilmek için media'ya ihtiyacınız var."})
+
+    }
+    
+    const folderPath = path.join(__dirname,"../","uploads/Products")
+    req.files.media.mv(folderPath,function(err){
+        if(err){
+            return res.status(hs.INTERNAL_SERVER_ERROR).send({error:"Upload işlemi sırasında hata oluştu."})
+
+        }
+    })
+   
+}
 
 
 module.exports = {
@@ -84,5 +119,7 @@ module.exports = {
     create,
     update,
     addComment,
+    deleteProduct,
+    addProductImage,
 
 }

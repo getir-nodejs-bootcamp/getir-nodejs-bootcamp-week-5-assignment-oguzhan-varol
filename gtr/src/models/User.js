@@ -19,10 +19,8 @@ const UserSchema = new moongose.Schema(
             code:String,
         }
     ],
-    phones:[{
-        number:String,
-        type:String,
-    }],
+    phones:String,
+    
     favorites:[],
     isAdmin:Boolean,
    },
